@@ -14,7 +14,11 @@ object StatsD {
       return
     }
     val socket = new DatagramSocket(port)
-    val payload = data.getBytes
+    val payload = if(sampleRate == 1) {
+      data.getBytes
+    } else {
+      (data + "|@" + sampleRate).getBytes
+    }
     val packet = new DatagramPacket(payload, payload.length, host, port)
     socket.send(packet)
   }
