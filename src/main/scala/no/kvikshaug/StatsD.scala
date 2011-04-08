@@ -9,6 +9,13 @@ object StatsD {
 
   val random = new java.util.Random
 
+  def timing(stat: String, time: String, sampleRate: Double = 1) = send(stat + ":" + time + "|ms", sampleRate)
+  def increment(stat: String, sampleRate: Double = 1) = updateStats(stat, 1, sampleRate)
+  def decrement(stat: String, sampleRate: Double = 1) = updateStats(stat, -1, sampleRate)
+
+  def updateStats(stat: String, delta: Int, sampleRate: Double = 1) =
+    send(stat + ":" + delta + "|c", sampleRate)
+
   def send(data: String, sampleRate: Double = 1): Unit = {
     if(sampleRate < 1 && sampleRate < random.nextDouble) {
       return
