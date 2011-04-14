@@ -20,7 +20,7 @@ object StatsD {
     if(sampleRate < 1 && sampleRate < random.nextDouble) {
       return
     }
-    val socket = new DatagramSocket(port)
+    val socket = new DatagramSocket
     val payload = if(sampleRate == 1) {
       data.getBytes
     } else {
