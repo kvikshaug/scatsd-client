@@ -3,8 +3,8 @@ package no.kvikshaug
 import java.net._
 
 object StatsD {
-  // TODO load from config
-  val host = InetAddress.getByAddress(Array(127, 0, 0, 1))
+  // Host/port to the StatsD server. These should be set by the application
+  val host = InetAddress.getByName("127.0.0.1")
   val port = 2003
 
   val random = new java.util.Random
