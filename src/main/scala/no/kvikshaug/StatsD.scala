@@ -6,6 +6,7 @@ object StatsD {
 
   var address: Option[InetAddress] = None
   var port: Option[Int] = None
+  val socket = new DatagramSocket
 
   def setHost(address: InetAddress, port: Int) {
     this.address = Some(address)
@@ -21,7 +22,6 @@ object StatsD {
   def time(stat: String, value: Double, interval: Double = 0) = send(format("%s|%s|%s|time", stat, value, interval))
 
   def send(data: String) {
-    val socket = new DatagramSocket
     val payload = data.getBytes
     val packet = new DatagramPacket(payload, payload.length, address.get, port.get)
     socket.send(packet)
