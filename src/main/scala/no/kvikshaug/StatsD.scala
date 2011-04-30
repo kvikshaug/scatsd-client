@@ -12,25 +12,17 @@ object StatsD {
     this.port = Some(port)
   }
 
-  val random = new java.util.Random
+  // wrapper methods for java
+  def count(stat: String, value: Double): Unit = count(stat, value, 0)
+  def time(stat: String, value: Double): Unit = count(stat, value, 0)
 
-  def timing(stat: String, time: Double, sampleRate: Double = 1) = send(stat + ":" + time + "|ms", sampleRate)
-  def increment(stat: String, sampleRate: Double = 1) = updateStats(stat, 1, sampleRate)
-  def decrement(stat: String, sampleRate: Double = 1) = updateStats(stat, -1, sampleRate)
+  def count(stat: String, value: Double, interval: Double = 0) = send(format("%s|%s|%s|count", stat, value, interval))
+  def retain(stat: String, value: Double) = send(format("%s|%s|0|retain", stat, value))
+  def time(stat: String, value: Double, interval: Double = 0) = send(format("%s|%s|%s|time", stat, value, interval))
 
-  def updateStats(stat: String, delta: Double, sampleRate: Double = 1) =
-    send(stat + ":" + delta + "|c", sampleRate)
-
-  def send(data: String, sampleRate: Double = 1): Unit = {
-    if(sampleRate < 1 && sampleRate < random.nextDouble) {
-      return
-    }
+  def send(data: String) {
     val socket = new DatagramSocket
-    val payload = if(sampleRate == 1) {
-      data.getBytes
-    } else {
-      (data + "|@" + sampleRate).getBytes
-    }
+    val payload = data.getBytes
     val packet = new DatagramPacket(payload, payload.length, address.get, port.get)
     socket.send(packet)
   }
