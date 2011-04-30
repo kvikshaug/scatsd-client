@@ -3,9 +3,14 @@ package no.kvikshaug
 import java.net._
 
 object StatsD {
-  // Host/port to the StatsD server. These should be set by the application
-  val host = InetAddress.getByName("127.0.0.1")
-  val port = 2003
+
+  var address: Option[InetAddress] = None
+  var port: Option[Int] = None
+
+  def setHost(address: InetAddress, port: Int) {
+    this.address = Some(address)
+    this.port = Some(port)
+  }
 
   val random = new java.util.Random
 
@@ -26,7 +31,7 @@ object StatsD {
     } else {
       (data + "|@" + sampleRate).getBytes
     }
-    val packet = new DatagramPacket(payload, payload.length, host, port)
+    val packet = new DatagramPacket(payload, payload.length, address.get, port.get)
     socket.send(packet)
   }
 }
