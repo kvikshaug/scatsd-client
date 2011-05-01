@@ -1,4 +1,4 @@
-package no.kvikshaug
+package no.kvikshaug.statsd.client
 
 import java.net._
 
