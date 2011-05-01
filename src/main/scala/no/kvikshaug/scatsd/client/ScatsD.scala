@@ -1,8 +1,8 @@
-package no.kvikshaug.statsd.client
+package no.kvikshaug.scatsd.client
 
 import java.net._
 
-object StatsD {
+object ScatsD {
 
   var address: Option[InetAddress] = None
   var port: Option[Int] = None

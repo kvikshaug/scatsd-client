@@ -1,6 +1,6 @@
-# StatsD-scala
+# ScatsD-scala
 
-A simple client to be used in [Scala][scala] for [StatsD][statsd].
+A simple client written in [Scala][scala] to be used with [ScatsD][scatsd].
 
 [scala]: http://www.scala-lang.org/
-[statsd]: https://github.com/etsy/statsd
+[scatsd]: https://github.com/murr4y/scatsd-server
