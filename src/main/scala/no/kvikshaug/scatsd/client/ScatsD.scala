@@ -22,9 +22,11 @@ object ScatsD {
   def time(stat: String, value: Double, interval: Double = 0) = send(format("%s|%s|%s|time", stat, value, interval))
 
   def send(data: String) {
-    val payload = data.getBytes
-    val packet = new DatagramPacket(payload, payload.length, address.get, port.get)
-    socket.send(packet)
+    if(address.isDefined && port.isDefined) {
+      val payload = data.getBytes
+      val packet = new DatagramPacket(payload, payload.length, address.get, port.get)
+      socket.send(packet)
+    }
   }
 }
 
